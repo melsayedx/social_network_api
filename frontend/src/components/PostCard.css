@@ -1,0 +1,111 @@
+.post-card {
+    margin-bottom: 1rem;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text);
+}
+
+.post-author:hover .author-name {
+    color: var(--color-primary);
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.post-time {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.edited-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-surface-hover);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+}
+
+.post-content {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.post-content p {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.hashtag {
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.hashtag:hover {
+    text-decoration: underline;
+}
+
+.post-footer {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text);
+}
+
+.action-btn:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.like-btn.liked {
+    color: #ef4444;
+}
+
+.like-btn.liked:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.icon {
+    font-size: 1.125rem;
+}

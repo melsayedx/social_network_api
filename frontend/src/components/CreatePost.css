@@ -1,0 +1,19 @@
+.create-post {
+    margin-bottom: 1.5rem;
+}
+
+.create-post .textarea {
+    min-height: 80px;
+    margin-bottom: 1rem;
+}
+
+.create-post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.char-count {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}

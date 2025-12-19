@@ -1,0 +1,77 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: social_network_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-social_network}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: social_network_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: social_network_backend
+    # Use HTTPS if certs exist, otherwise HTTP
+    command: >
+      sh -c "if [ -f /certs/localhost.crt ]; then
+        uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload --ssl-keyfile=/certs/localhost.key --ssl-certfile=/certs/localhost.crt;
+      else
+        uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload;
+      fi"
+    volumes:
+      - ./backend:/app
+      - ./certs:/certs:ro
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    image: node:22-alpine
+    container_name: social_network_frontend
+    working_dir: /app
+    command: npm run dev -- --host
+    volumes:
+      - ./frontend:/app
+      - ./certs:/certs:ro
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=https://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
+
+
